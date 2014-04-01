@@ -1,0 +1,5 @@
+*.idea
+.idea
+js/libs
+css/libs
+css/fonts
