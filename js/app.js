@@ -7,10 +7,14 @@ App.Router.map(function () {
         this.route('new', {path: 'new'}); // to access this route, we need to use {{#link-to 'newstory.new'}} notice the DOT
     });
 
+    this.resource('index', {path: '/'}, function(){
+       this.resource('story', {path: '/stories/:story_id'});
+    });
+
     //http://stackoverflow.com/questions/18528849/how-to-use-html5-local-storage-with-ember-js
 });
 
-// to store stories, everytime we add one needs to go in here
+// to store stories, every time we add one needs to go in here
 var data = [];
 
 // http://code.tutsplus.com/tutorials/getting-into-ember-js-part-3--net-31394
@@ -29,7 +33,7 @@ App.Story = Ember.Object.extend();
 
 
 // what is an object controller
-// note the name of the controller, Ember expects the controller to be extractly same as it wants
+// note the name of the controller, Ember expects the controller to be exactly same as it wants
 App.NewstoryNewController = Ember.ObjectController.extend({
 
     actions: {
@@ -51,9 +55,24 @@ App.NewstoryNewController = Ember.ObjectController.extend({
                 submittedOn: submittedOn
             });
             data.pushObject(store);
-            //this.transitionToRoute('index');
-            return ;
+            this.transitionToRoute('index');
         }
     }
 });
 
+App.IndexRoute = Ember.Route.extend({
+    model: function () {
+        return data;
+    }
+});
+
+
+App.StoryRoute = Ember.Route.extend({
+    model: function(params){
+        console.log(params);
+        return data.find(function (callback, target) {
+            console.log(callback);
+            console.log(target);
+        })
+    }
+});
