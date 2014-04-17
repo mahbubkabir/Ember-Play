@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <script type="text/x-handlebars">
+<script type="text/x-handlebars">
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -25,9 +25,13 @@
         <div id="main" class="container">
             {{outlet}}
         </div>
-    </script>
 
-    <script type="text/x-handlebars" id="newstory/new">
+
+
+
+</script>
+
+<script type="text/x-handlebars" id="newstory/new">
 
         <form class="form-horizontal" role="form">
           <div class="form-group">
@@ -67,12 +71,57 @@
             </div>
           </div>
         </form>
-    </script>
 
-    <script src="js/libs/jquery-1.10.2.js"></script>
-    <script src="js/libs/handlebars-1.1.2.js"></script>
-    <script src="js/libs/ember-1.4.0.js"></script>
 
-    <script src="js/app.js"></script>
+
+
+</script>
+
+
+<script type="text/x-handlebars" id="index">
+    <div class="row">
+      <div class="col-md-4">
+        <table class='table'>
+          <thead>
+            <tr><th>Recent Stories</th></tr>
+          </thead>
+          {{#each model}}
+            <tr><td>
+            {{#link-to 'story' this}}
+              {{title}}
+            {{/link-to}}
+            </td></tr>
+
+          {{/each}}
+        </table>
+      </div>
+      <div class="col-md-8">
+        {{outlet}}
+      </div>
+    </div>
+
+</script>
+
+<script type="text/x-handlebars" id="story">
+    <h1>{{title}}</h1>
+    <h2> by {{fullname}} <small class="muted">{{submittedOn}}</small></h2>
+    {{#each tagnames}}
+
+        <span class="label label-primary">{{this}}</span>
+
+      {{/each}}
+    <hr>
+    <p class="lead">
+      {{excerpt}}
+    </p>
+
+
+</script>
+
+<script src="js/libs/jquery-1.10.2.js"></script>
+<script src="js/libs/handlebars-1.1.2.js"></script>
+<script src="js/libs/ember-1.4.0.js"></script>
+
+<script src="js/app.js"></script>
 </body>
 </html>
