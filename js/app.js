@@ -1,5 +1,9 @@
 App = Ember.Application.create();
 
+App.Globals = {
+    id: 1
+};
+
 App.Router.map(function () {
     // this.resource('newstory', {path: 'story/new'});
     // can be expressed as the following
@@ -7,8 +11,8 @@ App.Router.map(function () {
         this.route('new', {path: 'new'}); // to access this route, we need to use {{#link-to 'newstory.new'}} notice the DOT
     });
 
-    this.resource('index', {path: '/'}, function(){
-       this.resource('story', {path: '/stories/:story_id'});
+    this.resource('index', {path: '/'}, function () {
+        this.resource('story', {path: '/stories/:story_id'});
     });
 
     //http://stackoverflow.com/questions/18528849/how-to-use-html5-local-storage-with-ember-js
@@ -52,7 +56,8 @@ App.NewstoryNewController = Ember.ObjectController.extend({
                 fullname: fullname,
                 title: title,
                 excerpt: excerpt,
-                submittedOn: submittedOn
+                submittedOn: submittedOn,
+                id: App.Globals.id++
             });
             data.pushObject(store);
             this.transitionToRoute('index');
@@ -68,11 +73,15 @@ App.IndexRoute = Ember.Route.extend({
 
 
 App.StoryRoute = Ember.Route.extend({
-    model: function(params){
-        console.log(params);
-        return data.find(function (callback, target) {
-            console.log(callback);
-            console.log(target);
-        })
+    model: function (params) {
+        // http://emberjs.com/guides/enumerables/
+        var story = data.findBy('id', parseInt(params.story_id,10));
+        if (story.get("tags")){
+            story.set("tagNames", story.get("tags").split(","));
+        }
+        //console.log(story);
+        return story;
+        // return {'title' : 'Mahbub Kabir'};
     }
 });
+
